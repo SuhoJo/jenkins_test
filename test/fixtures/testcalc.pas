@@ -2,44 +2,55 @@ unit testcalc;
 
 interface
 uses
+  calculate,
   DUnitX.TestFramework;
 
 type
 
   [TestFixture]
   TTestCalc = class(TObject)                                                     // DUnitx 생성때 작성한 이름
+  private
+    calc: TCalculate;
   public
-    [Setup]
-    procedure Setup;
-    [TearDown]
-    procedure TearDown;
-    // Sample Methods
-    // Simple single Test
-    [Test]
-    procedure Test1;
+    [Setup] procedure Setup;
+    [TearDown] procedure TearDown;
+
     // Test with TestCase Attribute to supply parameters.
-    [Test]
-    [TestCase('TestA','1,2')]
-    [TestCase('TestB','3,4')]
-    procedure Test2(const AValue1 : Integer;const AValue2 : Integer);
+    [TestCase('TestA','1,2,3')]
+    [TestCase('TestB','3,4,7')]
+    procedure Test2(const A : uint32; const B : uint32; const R : uint32);
   end;
 
 implementation
 
+
 procedure TTestCalc.Setup;
 begin
+  Calc := TCalculate.Create;
 end;
 
 procedure TTestCalc.TearDown;
 begin
+  Calc.Free;
 end;
 
-procedure TTestCalc.Test1;
+procedure TTestCalc.Test2(const A : uint32; const B : uint32; const R : uint32);
+var
+  v : uint32;
 begin
-end;
+    // Arrange
+    // Act
+    v := calc.add(A,B);
+    // Assert
+    if v=r  then
+    begin
+        Assert.Pass('values match');
+    end
+    else
+    begin
+        Assert.Fail('values do not match');
+    end;
 
-procedure TTestCalc.Test2(const AValue1 : Integer;const AValue2 : Integer);
-begin
 end;
 
 initialization
